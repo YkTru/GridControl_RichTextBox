@@ -1,0 +1,95 @@
+﻿<Window
+    x:Class="SpreadSheet.WPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpf="clr-namespace:SpreadSheet.WPF"
+    Width="800"
+    Height="500"
+    Background="LightGray"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <wpf:MainViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <Button
+                Width="75"
+                Margin="5"
+                Background="Red"
+                Command="{Binding ChangeTextColorCommand}"
+                CommandParameter="Red"
+                Content="Red"
+                Focusable="False"
+                Foreground="White" />
+            <Button
+                Width="75"
+                Margin="5"
+                Background="Orange"
+                Command="{Binding ChangeTextColorCommand}"
+                CommandParameter="Orange"
+                Content="Orange"
+                Focusable="False"
+                Foreground="White" />
+            <Button
+                Width="75"
+                Margin="5"
+                Background="Green"
+                Command="{Binding ChangeTextColorCommand}"
+                CommandParameter="Green"
+                Content="Green"
+                Focusable="False"
+                Foreground="White" />
+        </StackPanel>
+
+
+        <!--  GridControl  -->
+        <dxg:GridControl
+            Name="gridControl"
+            Grid.Row="1"
+            AutoGenerateColumns="AddNew"
+            ItemsSource="{Binding Cars}">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="ID" Header="ID" />
+                <dxg:GridColumn FieldName="Trademark" Header="Trademark" />
+                <dxg:GridColumn FieldName="Model" Header="Model" />
+                <dxg:GridColumn
+                    Width="400"
+                    AllowGrouping="False"
+                    FieldName="Description"
+                    Header="Description">
+                    <dxg:GridColumn.CellDisplayTemplate>
+                        <DataTemplate>
+                            <wpf:RichTextBoxEx
+                                AcceptsReturn="True"
+                                BorderThickness="0"
+                                HorizontalScrollBarVisibility="Hidden"
+                                VerticalScrollBarVisibility="Hidden"
+                                RtfText="{Binding Path=Value, Mode=OneWay}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellDisplayTemplate>
+                    <dxg:GridColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <wpf:RichTextBoxEx
+                                AcceptsReturn="True"
+                                BorderThickness="0"
+                                GotFocus="RichTextBox_GotFocus"
+                                HorizontalScrollBarVisibility="Auto"
+                                VerticalScrollBarVisibility="Visible"
+                                RtfText="{Binding Path=Value, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellEditTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+    </Grid>
+</Window>
